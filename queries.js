@@ -1,29 +1,13 @@
 require('dotenv').config();  // Load environment variables from .env file
 
-const express = require('express');
-const { Pool } = require('pg');
-
-
+const Pool = require('pg').Pool
 const pool = new Pool({
   user: process.env.DB_USERNAME,
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
-});
-
-const app = express();
-app.use(express.json());  
-
-
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
-
-// Start server
-app.listen(3002, () => {
-  console.log('Server is running on port 3002');
-});
+})
 
 const getUsers = (request, response) => {
   pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
